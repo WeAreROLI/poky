@@ -67,7 +67,6 @@ VALGRIND_libc-uclibc = ""
 VALGRIND_mips = ""
 VALGRIND_mips64 = ""
 VALGRIND_mips64n32 = ""
-VALGRIND_arm = ""
 VALGRIND_aarch64 = ""
 
 #    exmap-console
