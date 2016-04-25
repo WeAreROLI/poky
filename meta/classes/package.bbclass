@@ -69,7 +69,7 @@ def legitimize_package_name(s):
     s = re.sub('<U([0-9A-Fa-f]{1,4})>', fixutf, s)
 
     # Remaining package name validity fixes
-    return s.lower().replace('_', '-').replace('@', '+').replace(',', '+').replace('/', '-')
+    return s.lower().replace(' ', '-').replace('_', '-').replace('@', '+').replace(',', '+').replace('/', '-').replace('\'', '-')
 
 def do_split_packages(d, root, file_regex, output_pattern, description, postinst=None, recursive=False, hook=None, extra_depends=None, aux_files_pattern=None, postrm=None, allow_dirs=False, prepend=False, match_path=False, aux_files_pattern_verbatim=None, allow_links=False, summary=None):
     """
@@ -119,6 +119,7 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
                       defaults to description if not set.
 
     """
+    import re
 
     dvar = d.getVar('PKGD', True)
 
@@ -192,6 +193,7 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
         # contains * or ? (rare, but possible) we need to handle that specially
         newfile = newfile.replace('*', '[*]')
         newfile = newfile.replace('?', '[?]')
+        newfile = re.sub(' +', '*', newfile) # Support spaces in packages
         if not oldfiles:
             the_files = [newfile]
             if aux_files_pattern:
